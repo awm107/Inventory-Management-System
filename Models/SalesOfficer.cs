@@ -1,0 +1,47 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace InventoryManagement.Models
+{
+    public class SalesOfficer
+    {
+        public int Id { get; set; }
+        [StringLength(450)]
+        public string UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public ApplicationUser ApplicationUser { get; set; }
+
+
+        [Required]
+        [MaxLength(50, ErrorMessage = "Name cannot exceed 50 characters")]
+        public string Name { get; set; }
+
+        [Required]
+        [RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
+            ErrorMessage = "Invalid email format")]
+        [Display(Name = "SalesOfficer Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [MaxLength(15, ErrorMessage = "CNIC cannot exceed 15 characters")]
+        [RegularExpression(@"^\d{5}-\d{7}-\d{1}$", ErrorMessage = 
+            "Invalid CNIC format. Expected format: XXXXX-XXXXXXX-X")]
+        [Display(Name = "SalesOfficer CNIC")]
+        public string CNIC { get; set; }
+
+        [Required]
+        public GenderType? Gender { get; set; }
+
+        [Required]
+        [MaxLength(100, ErrorMessage = "Address cannot exceed 100 characters")]
+        public string Address { get; set; }
+        public string Photopath { get; set; }
+
+
+    }
+}
