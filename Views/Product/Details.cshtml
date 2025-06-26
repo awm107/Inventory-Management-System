@@ -1,0 +1,86 @@
+﻿@model InventoryManagement.ViewModels.ProductDetailsViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.Product.ProductName</h1>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Product ID</td>
+                            <td>@Model.Product.Id</td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td>@Model.Product.Description</td>
+                        </tr>
+                        <tr>
+                            <td>Purchased Price</td>
+                            <td>@Model.Product.PurchasedPrice</td>
+                        </tr>
+                        <tr>
+                            <td>Sales Price</td>
+                            <td>@Model.Product.SalesPrice</td>
+                        </tr>
+                        <tr>
+                            <td>Created By</td>
+                            <td>@Model.Product.CreatedBy</td>
+                        </tr>
+                        <tr>
+                            <td>Created Date</td>
+                            <td>@Model.Product.CreatedDate</td>
+                        </tr>
+                        <tr>
+                            <td>Modified By</td>
+                            <td>@Model.Product.ModifiedBy</td>
+                        </tr>
+                        <tr>
+                            <td>Modified Date</td>
+                            <td>@Model.Product.ModifiedDate</td>
+                        </tr>
+                        <tr>
+                            <td>Product Type</td>
+                            <td>@Model.Product.ProdType.ToString()</td>
+                        </tr>
+                        <tr>
+                            <td>Quantity</td>
+                            <td>@Model.Product.Quantity</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>@Model.Product.Status</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="Product" asp-action="Index" class="btn btn-primary">Back</a>
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-controller="Product"
+                       asp-route-id="@Model.Product.Id" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Product.Id" class="btn btn-danger m-1">Delete</a>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
+}

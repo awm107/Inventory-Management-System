@@ -1,0 +1,66 @@
+﻿@model InventoryManagement.ViewModels.ProductTypeDetailsDeleteViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-danger">Delete Product Type</h2>
+
+<div>
+    <h3 class=" text-danger">Are you sure you want to delete this Product Type?</h3>
+    <div class="row justify-content-center m-3">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.productTypeDetails.ProductTypeName</h1>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Product Type ID</td>
+                            <td>@Model.productTypeDetails.Id</td>
+                        </tr>
+                        <tr>
+                            <td>Product ID</td>
+                            <td>@Model.productTypeDetails.ProductTypeName</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>@Model.productTypeDetails.Status</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="productTypeDetails" asp-action="index" class="btn btn-primary">Back</a>
+                <form asp-controller="productTypeDetails" asp-action="Delete" method="post" class="d-inline">
+                    <input type="hidden" name="id" value="@Model.productTypeDetails.Id" />
+                    <span id="confirmDeleteSpan_@Model.productTypeDetails.Id" style="display:none">
+                        <br />
+                        <span>Are you sure you still want to delete?</span>
+                        <br />
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                        <a href="#" class="btn btn-primary"
+                           onclick="confirmDelete('@Model.productTypeDetails.Id', false)">No</a>
+                    </span>
+
+                    <span id="deleteSpan_@Model.productTypeDetails.Id">
+                        <a href="#" class="btn btn-danger"
+                           onclick="confirmDelete('@Model.productTypeDetails.Id', true)">Delete</a>
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
+}

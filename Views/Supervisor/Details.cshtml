@@ -1,0 +1,41 @@
+﻿@model InventoryManagement.ViewModels.SupervisorDetailsViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var photoPath = "~/images/" + (Model.Supervisor.Photopath ?? "noimage.jpg");
+
+}
+
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.Supervisor.Name</h1>
+            </div>
+
+            <div class="card-body text-center">
+                <img class="card-img-top" src="@photoPath" asp-append-version="true" />
+
+                <h4>Supervisor ID : @Model.Supervisor.Id</h4>
+                <h4>Email : @Model.Supervisor.Email</h4>
+                <h4>Address : @Model.Supervisor.Address</h4>
+                <h4>Gender : @Model.Supervisor.Gender</h4>
+                <h4>CNIC : @Model.Supervisor.CNIC</h4>
+
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="Supervisor" asp-action="index" class="btn btn-primary">Back</a>
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                {
+                    <a asp-action="edit" asp-controller="Supervisor"
+                       asp-route-id="@Model.Supervisor.Id" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Supervisor" asp-action="delete" asp-route-id="@Model.Supervisor.Id" class="btn btn-danger m-1">Delete</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
+}

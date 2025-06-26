@@ -1,0 +1,49 @@
+﻿@model IEnumerable<InventoryManagement.Models.Product>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+
+@{
+    ViewBag.Title = "Inactive Product List";
+    var loggedInUserId = userManager.GetUserId(User); // Get the ID of the logged-in user
+}
+<h4>To go back, click on this button</h4>
+<a asp-controller="Product" asp-action="index" class="btn btn-danger m-1">Back</a>
+<div class="container">
+    <div class="row">
+        @foreach (var Product in Model)
+        {
+            @if (Product.Status == false)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card m-auto" style="width: 100%">
+                        <div class="card-header">
+                            <h3>@Product.ProductName</h3>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a asp-controller="Product" asp-action="details" class="btn btn-primary m-1"
+                               asp-route-id="@Product.Id">View</a>
+
+                            @*  @if (Product.isClassProduct == true && User.IsInRole("Class Product") && Product.UserId == loggedInUserId)
+                                            {
+                                <a asp-controller="Product" asp-action="attendance" class="btn btn-danger m-1" asp-route-id="@Product.Id">
+                                    Mark Attendance
+                                </a>
+                                } *@
+                            @if (User.IsInRole("Admin") || User.IsInRole("Supervisor"))
+                            {
+                                <a asp-controller="Product" asp-action="edit" asp-route-id="@Product.Id"
+                                   class="btn btn-primary m-1">Edit</a>
+                                if (User.IsInRole("Admin"))
+                                {
+                                    <a asp-controller="Product" asp-action="delete" asp-route-id="@Product.Id" class="btn btn-danger m-1">Delete</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+

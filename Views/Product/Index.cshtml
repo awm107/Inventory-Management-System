@@ -1,0 +1,52 @@
+﻿@model IEnumerable<InventoryManagement.Models.Product>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+
+@{
+    ViewBag.Title = "Product List";
+    var loggedInUserId = userManager.GetUserId(User); // Get the ID of the logged-in user
+}
+
+<div>
+    <a asp-controller="Product" asp-action="create" class="btn btn-danger m-1">Add New Product</a>
+    <a asp-controller="Product" asp-action="inactive" class="btn btn-danger m-1">See Inactive Products</a>
+</div>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Product in Model)
+            {
+                @if (Product.Status == true)
+                {
+                    <tr>
+                        <td>@Product.ProductName</td>
+                        <td>
+                            <a asp-controller="Product" asp-action="details" class="btn btn-primary m-1"
+                               asp-route-id="@Product.Id">View</a>
+
+                            @if (User.IsInRole("Admin") || User.IsInRole("Supervisor"))
+                            {
+                                <a asp-controller="Product" asp-action="edit" asp-route-id="@Product.Id"
+                                   class="btn btn-primary m-1">Edit</a>
+
+                                if (User.IsInRole("Admin"))
+                                {
+                                    <a asp-controller="Product" asp-action="delete" asp-route-id="@Product.Id"
+                                       class="btn btn-danger m-1">Delete</a>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,55 @@
+﻿@model InventoryManagement.ViewModels.SupervisorDeleteViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var photoPath = "~/images/" + (Model.Supervisor.Photopath ?? "noimage.jpg");
+}
+
+<h2 class="text-danger">Delete Supervisor</h2>
+
+<div>
+    <h3 class=" text-danger">Are you sure you want to delete this Supervisor?</h3>
+    <div class="row justify-content-center m-3">
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1>@Model.Supervisor.Name</h1>
+                </div>
+
+                <div class="card-body text-center">
+                    <img class="card-img-top" src="@photoPath" asp-append-version="true" />
+
+                    <h4>Supervisor ID : @Model.Supervisor.Id</h4>
+                    <h4>Email : @Model.Supervisor.Email</h4>
+                    <h4>Address : @Model.Supervisor.Address</h4>
+                    <h4>Gender : @Model.Supervisor.Gender</h4>
+                    <h4>CNIC : @Model.Supervisor.CNIC</h4>
+
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-controller="Supervisor" asp-action="index" class="btn btn-primary">Back</a>
+                    <form asp-controller="Supervisor" asp-action="Delete" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@Model.Supervisor.Id" />
+                        <span id="confirmDeleteSpan_@Model.Supervisor.Id" style="display:none">
+                            <br />
+                            <span>Are you sure you still want to delete?</span>
+                            <br />
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                            <a href="#" class="btn btn-primary"
+                               onclick="confirmDelete('@Model.Supervisor.Id', false)">No</a>
+                        </span>
+
+                        <span id="deleteSpan_@Model.Supervisor.Id">
+                            <a href="#" class="btn btn-danger"
+                               onclick="confirmDelete('@Model.Supervisor.Id', true)">Delete</a>
+                        </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
+}

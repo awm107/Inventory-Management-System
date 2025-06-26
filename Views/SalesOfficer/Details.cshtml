@@ -1,0 +1,41 @@
+﻿@model InventoryManagement.ViewModels.SalesOfficerDetailsViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var photoPath = "~/images/" + (Model.SalesOfficer.Photopath ?? "noimage.jpg");
+
+}
+
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.SalesOfficer.Name</h1>
+            </div>
+
+            <div class="card-body text-center">
+                <img class="card-img-top" src="@photoPath" asp-append-version="true" />
+
+                <h4>SalesOfficer ID : @Model.SalesOfficer.Id</h4>
+                <h4>Email : @Model.SalesOfficer.Email</h4>
+                <h4>Address : @Model.SalesOfficer.Address</h4>
+                <h4>Gender : @Model.SalesOfficer.Gender</h4>
+                <h4>CNIC : @Model.SalesOfficer.CNIC</h4>
+
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="SalesOfficer" asp-action="index" class="btn btn-primary">Back</a>
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                {
+                    <a asp-action="edit" asp-controller="SalesOfficer"
+                       asp-route-id="@Model.SalesOfficer.Id" class="btn btn-primary">Edit</a>
+                    <a asp-controller="SalesOfficer" asp-action="delete" asp-route-id="@Model.SalesOfficer.Id" class="btn btn-danger m-1">Delete</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
+}

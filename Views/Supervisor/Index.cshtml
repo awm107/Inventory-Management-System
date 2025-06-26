@@ -1,0 +1,43 @@
+﻿@model IEnumerable<InventoryManagement.Models.Supervisor>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+
+@{
+    ViewBag.Title = "Supervisor List";
+    var loggedInUserId = userManager.GetUserId(User); // Get the ID of the logged-in user
+}
+
+<div class="container">
+    <div class="row">
+        @foreach (var Supervisor in Model)
+        {
+            var photoPath = Url.Content("~/images/" + (Supervisor.Photopath ?? "noimage.jpg"));
+            <div class="col-md-4 mb-4">
+                <div class="card m-auto" style="width: 100%">
+                    <div class="card-header">
+                        <h3>@Supervisor.Name</h3>
+                    </div>
+                    <img class="card-img-top imageThumbnail img-fluid" src="@photoPath" asp-append-version="true" />
+                    <div class="card-footer text-center">
+                        <a asp-controller="Supervisor" asp-action="details" class="btn btn-primary m-1"
+                           asp-route-id="@Supervisor.Id">View</a>
+
+                       @*  @if (Supervisor.isClassSupervisor == true && User.IsInRole("Class Supervisor") && Supervisor.UserId == loggedInUserId)
+                        {
+                            <a asp-controller="Supervisor" asp-action="attendance" class="btn btn-danger m-1" asp-route-id="@Supervisor.Id">
+                                Mark Attendance
+                            </a>
+                        } *@
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Supervisor" asp-action="edit" asp-route-id="@Supervisor.Id"
+                               class="btn btn-primary m-1">Edit</a>
+                            <a asp-controller="Supervisor" asp-action="delete" asp-route-id="@Supervisor.Id" class="btn btn-danger m-1">Delete</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

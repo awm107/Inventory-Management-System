@@ -1,0 +1,47 @@
+﻿@model IEnumerable<InventoryManagement.Models.ProductTypeDetails>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+
+@{
+    ViewBag.Title = "Product List";
+}
+
+<div>
+    <a asp-controller="ProductTypeDetails" asp-action="create" class="btn btn-danger m-1">Add New Product Type</a>
+    <a asp-controller="ProductTypeDetails" asp-action="inactive" class="btn btn-danger m-1">See Inactive Product Types</a>
+</div>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product Type Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ProductTypeDetails in Model)
+            {
+                @if (ProductTypeDetails.Status == true)
+                {
+                    <tr>
+                        <td>@ProductTypeDetails.ProductTypeName</td>
+                        <td>
+                            <a asp-controller="ProductTypeDetails" asp-action="details" class="btn btn-primary m-1"
+                               asp-route-id="@ProductTypeDetails.Id">View</a>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="ProductTypeDetails" asp-action="edit" asp-route-id="@ProductTypeDetails.Id"
+                                   class="btn btn-primary m-1">Edit</a>
+                                    <a asp-controller="ProductTypeDetails" asp-action="delete" asp-route-id="@ProductTypeDetails.Id"
+                                       class="btn btn-danger m-1">Delete</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

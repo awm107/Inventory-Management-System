@@ -1,0 +1,54 @@
+﻿@model InventoryManagement.ViewModels.ProductTypeDetailsViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.productTypeDetails.ProductTypeName</h1>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Product Type ID</td>
+                            <td>@Model.productTypeDetails.Id</td>
+                        </tr>
+                        <tr>
+                            <td>Product ID</td>
+                            <td>@Model.productTypeDetails.ProductTypeName</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>@Model.productTypeDetails.Status</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="ProductTypeDetails" asp-action="Index" class="btn btn-primary">Back</a>
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-controller="ProductTypeDetails"
+                       asp-route-id="@Model.productTypeDetails.Id" class="btn btn-primary">Edit</a>
+                    <a asp-controller="ProductTypeDetails" asp-action="Delete" asp-route-id="@Model.productTypeDetails.Id" class="btn btn-danger m-1">Delete</a>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
+}
